@@ -50,12 +50,12 @@ func main() {
 	var kubeconfig *string
 	if home := homedir.HomeDir(); home != "" {
 		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "")
-		//fmt.Print(home)
-		//fmt.Print(*kubeconfig)
+		fmt.Print(home)
+		fmt.Print(*kubeconfig)
 	} else {
 		kubeconfig = flag.String("kubeconfig", "", "/.kube/config")
-		//fmt.Print("Home is ''")
-		//fmt.Print(*kubeconfig)
+		fmt.Print("Home is ''")
+		fmt.Print(*kubeconfig)
 	}
 	flag.Parse()
 
