@@ -101,13 +101,13 @@ func SetNamespacesPosition() {
 }
 
 func SetNamespacesPositionByPos(pos mctype.Position) {
-	fmt.Print("Printing pos")
-	fmt.Print(FloatToString(pos.X) + " " + FloatToString(pos.Y) + " " + FloatToString(pos.Z))
+	//fmt.Print("Printing pos")
+	//fmt.Print(FloatToString(pos.X) + " " + FloatToString(pos.Y) + " " + FloatToString(pos.Z))
 	namespacesp = []mctype.Position{
 		{X: pos.X - 11, Y: pos.Y + 5, Z: pos.Z - 11},
 		{X: pos.X - 11, Y: pos.Y + 5, Z: pos.Z - 5},
 		{X: pos.X - 5, Y: pos.Y + 5, Z: pos.Z - 11},
 		{X: pos.X - 5, Y: pos.Y + 5, Z: pos.Z - 5},
 	}
-	fmt.Print(namespacesp)
+	//fmt.Print(namespacesp)
 }

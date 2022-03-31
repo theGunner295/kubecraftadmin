@@ -59,7 +59,6 @@ func getKubeConfig(accessWithinCluster string) (error, *rest.Config) {
 		var kubeconfigFile string
 		if home := homeDir(); home != "" {
 			kubeconfigFile = "/.kube" + "/config"
-			kubeconfigFile = "C:\\Users\\Jack\\.kube\\config\\config"
 			if _, err := os.Stat(kubeconfigFile); os.IsNotExist(err) {
 				return err, nil
 			}

@@ -49,7 +49,8 @@ func main() {
 	//clientset, _ := GetClient(accessWithinCluster)
 	var kubeconfig *string
 	if home := homedir.HomeDir(); home != "" {
-		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "")
+		//kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "")
+		kubeconfig = flag.String("kubeconfig", filepath.Join("/.kube", "config"), "")
 		fmt.Print(home)
 		fmt.Print(*kubeconfig)
 	} else {
