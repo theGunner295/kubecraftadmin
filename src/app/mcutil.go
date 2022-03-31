@@ -85,8 +85,8 @@ func GetPlayerPosition(player *mcwss.Player) {
 		initpos.X = x
 		initpos.Y = y
 		initpos.Z = z
-		fmt.Print("Printing init pos")
-		fmt.Printf(FloatToString(initpos.X) + " " + FloatToString(initpos.Y) + " " + FloatToString(initpos.Z))
+		//fmt.Print("Printing init pos")
+		//fmt.Printf(FloatToString(initpos.X) + " " + FloatToString(initpos.Y) + " " + FloatToString(initpos.Z))
 	})
 }
 
@@ -102,11 +102,12 @@ func SetNamespacesPosition() {
 
 func SetNamespacesPositionByPos(pos mctype.Position) {
 	fmt.Print("Printing pos")
-	fmt.Printf(FloatToString(pos.X) + " " + FloatToString(pos.Y) + " " + FloatToString(pos.Z))
+	fmt.Print(FloatToString(pos.X) + " " + FloatToString(pos.Y) + " " + FloatToString(pos.Z))
 	namespacesp = []mctype.Position{
 		{X: pos.X - 11, Y: pos.Y + 5, Z: pos.Z - 11},
 		{X: pos.X - 11, Y: pos.Y + 5, Z: pos.Z - 5},
 		{X: pos.X - 5, Y: pos.Y + 5, Z: pos.Z - 11},
 		{X: pos.X - 5, Y: pos.Y + 5, Z: pos.Z - 5},
 	}
+	fmt.Print(namespacesp)
 }

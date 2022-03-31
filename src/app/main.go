@@ -33,8 +33,7 @@ var playerKubeMap = make(map[string][]string)
 var playerEntitiesMap = make(map[string][]string)
 
 // ENV paramaters
-//var passedNamespaces = os.Getenv("namespaces")
-var passedNamespaces = "symphony,patreonpull,postgres,ac-website"
+var passedNamespaces = os.Getenv("namespaces")
 var accessWithinCluster = os.Getenv("accessWithinCluster")
 
 //var accessWithinCluster = "yes"
@@ -54,7 +53,7 @@ func main() {
 		//fmt.Print(home)
 		//fmt.Print(*kubeconfig)
 	} else {
-		kubeconfig = flag.String("kubeconfig", "", "Path to config")
+		kubeconfig = flag.String("kubeconfig", "", "/.kube/config")
 		//fmt.Print("Home is ''")
 		//fmt.Print(*kubeconfig)
 	}
@@ -115,9 +114,8 @@ func main() {
 		player.OnTravelled(func(event *event.PlayerTravelled) {
 			player.Exec("testforblock ~ ~-1 ~ beacon", func(response *command.LocalPlayerName) {
 				if response.StatusCode == 0 {
-					player.Position(func(pos mctype.Position) {
-						SetNamespacesPositionByPos(pos)
-					})
+					GetPlayerPosition(player)
+					SetNamespacesPositionByPos(initpos)
 					if !playerInitMap[playerName] {
 						playerInitMap[playerName] = true
 						fmt.Println("initialized!")
@@ -182,6 +180,7 @@ func main() {
 
 			if (strings.Compare(event.Message, "pos")) == 0 {
 				GetPlayerPosition(player)
+				SetNamespacesPositionByPos(initpos)
 				//player.Position(func(pos mctype.Position) {
 				//	fmt.Print(FloatToString(pos.X) + " " + FloatToString(pos.Y) + " " + FloatToString(pos.Z))
 				//	//SetNamespacesPositionByPos(pos)
@@ -208,9 +207,8 @@ func main() {
 			// Initialize admin area
 			if (strings.Compare(event.Message, "init")) == 0 {
 				DeleteEntities(player)
-				player.Position(func(pos mctype.Position) {
-					SetNamespacesPositionByPos(pos)
-				})
+				GetPlayerPosition(player)
+				SetNamespacesPositionByPos(initpos)
 				InitArea(player)
 			}
 
