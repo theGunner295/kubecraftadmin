@@ -18,7 +18,7 @@ stages:
   - job: Build
     displayName: Build
     pool: 
-      name: RS-03-KUB-01
+      name: Redshift-OnPrem-Linux
       vmImage: 'ubuntu-latest'
     steps:
 #    - task: PowerShell@2
