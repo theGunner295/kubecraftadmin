@@ -17,7 +17,8 @@ stages:
   jobs:  
   - job: Build
     displayName: Build
-    pool:
+    pool: 
+      name: RS-03-KUB-01
       vmImage: 'ubuntu-latest'
     steps:
     - task: PowerShell@2
