@@ -9,7 +9,7 @@ resources:
 - repo: self
 
 variables:
-  tag: 'latest'
+  tag: 'Set by Powershell script'
 
 stages:
 - stage: Build
@@ -31,6 +31,9 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub-awesomejack295'
-        repository: 'kubecraftadmin'
+        repository: 'awesomejack295/kubecraftadmin'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+        tags: |
+          $(tag)
+          latest
