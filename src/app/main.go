@@ -2,13 +2,19 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"math/rand"
 	"os"
+	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/sandertv/mcwss/mctype"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/util/homedir"
 
 	"github.com/sandertv/mcwss/protocol/command"
 	"github.com/sandertv/mcwss/protocol/event"
@@ -27,8 +33,11 @@ var playerKubeMap = make(map[string][]string)
 var playerEntitiesMap = make(map[string][]string)
 
 // ENV paramaters
-var passedNamespaces = os.Getenv("namespaces")
+//var passedNamespaces = os.Getenv("namespaces")
+var passedNamespaces = "symphony,patreonpull,postgres,ac-website"
 var accessWithinCluster = os.Getenv("accessWithinCluster")
+
+//var accessWithinCluster = "yes"
 
 func main() {
 	if accessWithinCluster == "" {
@@ -38,7 +47,38 @@ func main() {
 	initialized = false
 	rand.Seed(86)
 
-	clientset, _ := GetClient(accessWithinCluster)
+	//clientset, _ := GetClient(accessWithinCluster)
+	var kubeconfig *string
+	if home := homedir.HomeDir(); home != "" {
+		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "")
+		//fmt.Print(home)
+		//fmt.Print(*kubeconfig)
+	} else {
+		kubeconfig = flag.String("kubeconfig", "", "Path to config")
+		//fmt.Print("Home is ''")
+		//fmt.Print(*kubeconfig)
+	}
+	flag.Parse()
+
+	// use the current context in kubeconfig
+	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// create the clientset
+	clientset, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	/* 	for {
+		namespacesno, _ := clientset.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
+		if err != nil {
+			panic(err.Error())
+		}
+		fmt.Printf("There are %d namespaces in the cluster\n", len(namespacesno.Items))
+	} */
 
 	// Create a new server using the default configuration. To use specific configuration, pass a *wss.Config{} in here.
 	var c = mcwss.Config{HandlerPattern: "/ws", Address: "0.0.0.0:8000"}
@@ -55,7 +95,7 @@ func main() {
 		MOTD(player)
 		Actionbar(player, "Connected to k8s cluster")
 
-		fmt.Println("Player has entered!")
+		fmt.Println("Player ", player.Name(), " has entered!")
 		player.Exec("time set noon", nil)
 		player.Exec("weather clear", nil)
 		player.Exec("alwaysday", nil)
@@ -76,7 +116,7 @@ func main() {
 			player.Exec("testforblock ~ ~-1 ~ beacon", func(response *command.LocalPlayerName) {
 				if response.StatusCode == 0 {
 					player.Position(func(pos mctype.Position) {
-						SetNamespacesPositionByPos(pos)		
+						SetNamespacesPositionByPos(pos)
 					})
 					if !playerInitMap[playerName] {
 						playerInitMap[playerName] = true
@@ -94,6 +134,7 @@ func main() {
 									}
 								}
 							}
+							fmt.Print(passedNamespacesList)
 							if len(selectednamespaces) < 4 { // if less than 4 specified, select until length is 4
 								for _, ns := range namespaces.Items {
 									if !Contains(selectednamespaces, ns.Name) {
@@ -104,6 +145,7 @@ func main() {
 									}
 								}
 							}
+							fmt.Print(selectednamespaces)
 						} else {
 							for i := 0; i < 4; i++ {
 								selectednamespaces = append(selectednamespaces, namespaces.Items[i].Name)
@@ -122,6 +164,8 @@ func main() {
 		// If a mob is killed by the player we do another check which entity is missing
 		player.OnMobKilled(func(event *event.MobKilled) {
 			fmt.Printf("mobkilled %d\n", event.MobType)
+			var mobkilledtype string = strconv.Itoa(event.MobType)
+			player.Exec("title @s actionbar @s killed mobtype "+mobkilledtype, nil)
 			ReconcileMCtoKubeMob(player, clientset, event.MobType)
 		})
 
@@ -129,13 +173,43 @@ func main() {
 		player.OnPlayerMessage(func(event *event.PlayerMessage) {
 			fmt.Println(event.Message)
 			if (strings.Compare(event.Message, "detect")) == 0 {
+				player.Exec("title @s actionbar @s used detect!", nil)
+			}
+
+			if (strings.Compare(event.Message, "test")) == 0 {
+				player.Exec("title @s actionbar @s used test!", nil)
+			}
+
+			if (strings.Compare(event.Message, "pos")) == 0 {
+				GetPlayerPosition(player)
+				//player.Position(func(pos mctype.Position) {
+				//	fmt.Print(FloatToString(pos.X) + " " + FloatToString(pos.Y) + " " + FloatToString(pos.Z))
+				//	//SetNamespacesPositionByPos(pos)
+				//})
+				//player.Rotation(func(rotation float64) {
+				//fmt.Printf("  player rotation: %v\n", rotation)
+				//})
+				//player.Position(func(pos mctype.Position) {
+				//	fmt.Printf(FloatToString(pos.X) + FloatToString(pos.Y) + FloatToString(pos.Z))
+				//})
+
+			}
+
+			//if (strings.Compare(event.Message, "ns")) == 0 {
+			//	namespaces, _ := clientset.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
+			//	fmt.Printf(namespaces.ResourceVersion)
+			//}
+
+			if (strings.Compare(event.Message, "killall")) == 0 {
+				fmt.Print("Killing entities")
+				DeleteEntities(player)
 			}
 
 			// Initialize admin area
 			if (strings.Compare(event.Message, "init")) == 0 {
 				DeleteEntities(player)
 				player.Position(func(pos mctype.Position) {
-					SetNamespacesPositionByPos(pos)		
+					SetNamespacesPositionByPos(pos)
 				})
 				InitArea(player)
 			}
@@ -150,7 +224,7 @@ func main() {
 	})
 	server.OnDisconnection(func(player *mcwss.Player) {
 		// Called when a player disconnects from the server.
-		fmt.Println("Player has disconnected")
+		fmt.Println("Player ", player.Name(), " has disconnected")
 	})
 
 	// Run the server. (blocking)

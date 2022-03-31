@@ -59,7 +59,7 @@ func Testforentity(p *mcwss.Player, name string) bool {
 
 // Actionbar will display a message to the player
 func Actionbar(player *mcwss.Player, message string) {
-	player.Exec(fmt.Sprintf("title %s actionbar %s", player.Name(), message), nil)
+	player.Exec(fmt.Sprintf("title @s actionbar @s "+message), nil)
 }
 
 // Get Current Player Position
@@ -85,6 +85,8 @@ func GetPlayerPosition(player *mcwss.Player) {
 		initpos.X = x
 		initpos.Y = y
 		initpos.Z = z
+		fmt.Print("Printing init pos")
+		fmt.Printf(FloatToString(initpos.X) + " " + FloatToString(initpos.Y) + " " + FloatToString(initpos.Z))
 	})
 }
 
@@ -99,6 +101,8 @@ func SetNamespacesPosition() {
 }
 
 func SetNamespacesPositionByPos(pos mctype.Position) {
+	fmt.Print("Printing pos")
+	fmt.Printf(FloatToString(pos.X) + " " + FloatToString(pos.Y) + " " + FloatToString(pos.Z))
 	namespacesp = []mctype.Position{
 		{X: pos.X - 11, Y: pos.Y + 5, Z: pos.Z - 11},
 		{X: pos.X - 11, Y: pos.Y + 5, Z: pos.Z - 5},

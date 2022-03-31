@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"os"
+	"strconv"
 
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -58,6 +59,7 @@ func getKubeConfig(accessWithinCluster string) (error, *rest.Config) {
 		var kubeconfigFile string
 		if home := homeDir(); home != "" {
 			kubeconfigFile = "/.kube" + "/config"
+			kubeconfigFile = "C:\\Users\\Jack\\.kube\\config\\config"
 			if _, err := os.Stat(kubeconfigFile); os.IsNotExist(err) {
 				return err, nil
 			}
@@ -83,4 +85,9 @@ func homeDir() string {
 		return h
 	}
 	return os.Getenv("USERPROFILE") // windows
+}
+
+func FloatToString(input_num float64) string {
+	// to convert a float number to a string
+	return strconv.FormatFloat(input_num, 'f', 6, 64)
 }

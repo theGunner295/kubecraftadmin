@@ -2,20 +2,21 @@ package main
 
 import (
 	"fmt"
-	"github.com/sandertv/mcwss/mctype"
+
 	"github.com/sandertv/mcwss"
+	"github.com/sandertv/mcwss/mctype"
 )
 
 // MOTD will display the title and subtitle
 func MOTD(player *mcwss.Player) {
-	player.Exec(fmt.Sprintf("title %s title KubeCraftAdmin", player.Name()), nil)
-	player.Exec(fmt.Sprintf("title %s subtitle The Adventurer's Admin Tool", player.Name()), nil)
+	player.Exec("title @s title KubeCraftAdmin", nil)
+	player.Exec("title @s subtitle The Adventurer's Admin Tool", nil)
 }
 
 // InitArea will spawn an initial playing area with 4 animal pens and a beacon at the center (currently hardcoded) and set the init position
 func InitArea(p *mcwss.Player) {
 	// Create animal pens
-	p.Position(func(pos mctype.Position){
+	p.Position(func(pos mctype.Position) {
 		fmt.Println("Creating Animal Pens ", pos)
 
 		Fill(p, pos, -20, -2, -20, 20, 15, 20, "air")
@@ -28,6 +29,6 @@ func InitArea(p *mcwss.Player) {
 		Fill(p, pos, -13, -1, -13, -9, -1, -9, "air")
 		Fill(p, pos, -13, -1, -7, -9, -1, -3, "air")
 		Fill(p, pos, -7, -1, -13, -3, -1, -9, "air")
-		Fill(p, pos, -7, -1, -7, -3, -1, -3, "air")	
+		Fill(p, pos, -7, -1, -7, -3, -1, -3, "air")
 	})
 }
