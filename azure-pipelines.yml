@@ -30,7 +30,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub'
-        repository: 'erjadi/kubecraftadmin'
+        repository: 'awesomejack295/kubecraftadmin'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
