@@ -5,8 +5,8 @@ KubeCraftAdmin : The Adventurer's Admin Tool
 
 This project allows you to do basic Kubernetes administration through Minecraft.
 - [See here](https://medium.com/@eric.jadi/minecraft-as-a-k8s-admin-tool-cf16f890de42) for a more detailed introduction.
-- Link to the latest [Docker Image](https://hub.docker.com/repository/registry-1.docker.io/erjadi/kubecraftadmin)
-- Latest build status ![Build Status](https://dev.azure.com/ericjadi/KubeCraftAdmin%20-%20Pipelines/_apis/build/status/erjadi.kubecraftadmin?branchName=main)
+- Link to the latest [Docker Image](https://hub.docker.com/r/awesomejack295/kubecraftadmin)
+- Latest build status ![Build Status](https://dev.azure.com/RedshiftEnt/KubeCraft/_apis/build/status/theGunner295.kubecraftadmin?branchName=main)
 
 ## Quickstart  
 
