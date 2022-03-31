@@ -116,7 +116,7 @@ func main() {
 			player.Exec("testforblock ~ ~-1 ~ beacon", func(response *command.LocalPlayerName) {
 				if response.StatusCode == 0 {
 					GetPlayerPosition(player)
-					SetNamespacesPositionByPos(initpos)
+					//SetNamespacesPositionByPos(initpos)
 					if !playerInitMap[playerName] {
 						playerInitMap[playerName] = true
 						fmt.Println("initialized!")
@@ -224,6 +224,7 @@ func main() {
 	server.OnDisconnection(func(player *mcwss.Player) {
 		// Called when a player disconnects from the server.
 		fmt.Println("Player ", player.Name(), " has disconnected")
+		os.Exit(0)
 	})
 
 	// Run the server. (blocking)
