@@ -18,19 +18,16 @@ stages:
   - job: Build
     displayName: Build
     pool: 
-      name: Redshift-OnPrem-Linux
+      name: Redshift-OnPrem
       vmImage: 'ubuntu-latest'
     steps:
-#    - task: PowerShell@2
-#      displayName: Set the VersionNumber variable value
-#      inputs:
-#        targetType: 'inline'
-#        script: |
-#          [string] $dateTime = (Get-Date -Format 'yyyyMMdd.HHmmss')
-#          Write-Host "##vso[task.setvariable variable=tag]$dateTime"
-    - task: DockerInstaller@0
+    - task: PowerShell@2
+      displayName: Set the VersionNumber variable value
       inputs:
-       dockerVersion: '17.09.0-ce'
+        targetType: 'inline'
+        script: |
+          [string] $dateTime = (Get-Date -Format 'yyyyMMdd.HHmmss')
+          Write-Host "##vso[task.setvariable variable=tag]$dateTime"
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub-awesomejack295'
