@@ -9,7 +9,7 @@ resources:
 - repo: self
 
 variables:
-  tag: 'Set by Powershell script'
+  tag: 'latest'
 
 stages:
 - stage: Build
