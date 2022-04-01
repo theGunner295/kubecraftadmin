@@ -17,7 +17,6 @@ func InitArea(p *mcwss.Player) {
 	// Create animal pens
 	GetPlayerPosition(p)
 	SetNamespacesPositionByPos(initpos)
-	//p.Position(func(pos mctype.Position) {
 	fmt.Println("Creating Animal Pens ", initpos)
 
 	Fill(p, initpos, -20, -2, -20, 20, 15, 20, "air")
@@ -31,5 +30,4 @@ func InitArea(p *mcwss.Player) {
 	Fill(p, initpos, -13, -1, -7, -9, -1, -3, "air")
 	Fill(p, initpos, -7, -1, -13, -3, -1, -9, "air")
 	Fill(p, initpos, -7, -1, -7, -3, -1, -3, "air")
-	//}
 }

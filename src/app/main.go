@@ -36,8 +36,6 @@ var playerEntitiesMap = make(map[string][]string)
 var passedNamespaces = os.Getenv("namespaces")
 var accessWithinCluster = os.Getenv("accessWithinCluster")
 
-//var accessWithinCluster = "yes"
-
 func main() {
 	if accessWithinCluster == "" {
 		accessWithinCluster = "false"
@@ -46,10 +44,8 @@ func main() {
 	initialized = false
 	rand.Seed(86)
 
-	//clientset, _ := GetClient(accessWithinCluster)
 	var kubeconfig *string
 	if home := homedir.HomeDir(); home != "" {
-		//kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "")
 		kubeconfig = flag.String("kubeconfig", filepath.Join("/.kube", "config"), "")
 		fmt.Print(home)
 		fmt.Print(*kubeconfig)
@@ -71,14 +67,6 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-
-	/* 	for {
-		namespacesno, _ := clientset.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
-		if err != nil {
-			panic(err.Error())
-		}
-		fmt.Printf("There are %d namespaces in the cluster\n", len(namespacesno.Items))
-	} */
 
 	// Create a new server using the default configuration. To use specific configuration, pass a *wss.Config{} in here.
 	var c = mcwss.Config{HandlerPattern: "/ws", Address: "0.0.0.0:8000"}
@@ -116,7 +104,6 @@ func main() {
 			player.Exec("testforblock ~ ~-1 ~ beacon", func(response *command.LocalPlayerName) {
 				if response.StatusCode == 0 {
 					GetPlayerPosition(player)
-					//SetNamespacesPositionByPos(initpos)
 					if !playerInitMap[playerName] {
 						playerInitMap[playerName] = true
 						fmt.Println("initialized!")
@@ -182,23 +169,7 @@ func main() {
 			if (strings.Compare(event.Message, "pos")) == 0 {
 				GetPlayerPosition(player)
 				SetNamespacesPositionByPos(initpos)
-				//player.Position(func(pos mctype.Position) {
-				//	fmt.Print(FloatToString(pos.X) + " " + FloatToString(pos.Y) + " " + FloatToString(pos.Z))
-				//	//SetNamespacesPositionByPos(pos)
-				//})
-				//player.Rotation(func(rotation float64) {
-				//fmt.Printf("  player rotation: %v\n", rotation)
-				//})
-				//player.Position(func(pos mctype.Position) {
-				//	fmt.Printf(FloatToString(pos.X) + FloatToString(pos.Y) + FloatToString(pos.Z))
-				//})
-
 			}
-
-			//if (strings.Compare(event.Message, "ns")) == 0 {
-			//	namespaces, _ := clientset.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
-			//	fmt.Printf(namespaces.ResourceVersion)
-			//}
 
 			if (strings.Compare(event.Message, "killall")) == 0 {
 				fmt.Print("Killing entities")
