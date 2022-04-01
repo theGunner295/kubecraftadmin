@@ -8,7 +8,7 @@ trigger:
 resources:
 - repo: self
 
-variables:
+#variables:
 #  tag: 'Set by Powershell script'
 #   tag: 'latest'
 
