@@ -34,7 +34,5 @@ stages:
         containerRegistry: 'DockerHub-awesomejack295'
         repository: 'awesomejack295/kubecraftadmin'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: |
-          $(tag)
-          latest
+        Dockerfile: './Dockerfile'
+        tags: latest
