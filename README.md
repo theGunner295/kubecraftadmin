@@ -1,5 +1,6 @@
 # KubeCraftAdmin
 KubeCraftAdmin : The Adventurer's Admin Tool
+Working as of MC Bedrock version 1.18.12
 
 ![Would you kill this innocent looking service?](https://miro.medium.com/max/700/1*U4MfxStrHa41MUywGgT8ZQ.png)
 
@@ -30,11 +31,11 @@ How to run KubeCraftAdmin:
 ```
 /connect 10.0.0.1:8000/ws
 ```
-5. Next find a nice area to spawn your kubecraft pen. Type *init* to generate the structure.
+5. Next find a nice area to spawn your kubecraft pen. Type *pos* (Hit Enter) to log your position then *init* (Hit Enter) to generate the structure.
 6. Lastly step on the [beacon](https://minecraft.gamepedia.com/Beacon) to activate the link with your cluster.
 7. At this point your pens should be populated with animals!
 
-## Running KUbecraftadmin on OpenShift
+## Running Kubecraftadmin on OpenShift
 
 - oc new-project kubecraft
 - oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:kubecraft:default
