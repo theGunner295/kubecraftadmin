@@ -3,13 +3,22 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+      - README.md
+      - LICENSE
+      - .gitignore
 
 resources:
 - repo: self
 
-variables:
-  tag: 'latest'
+#variables:
+#  tag: 'Set by Powershell script'
+#   tag: 'latest'
 
 stages:
 - stage: Build
@@ -18,7 +27,7 @@ stages:
   - job: Build
     displayName: Build
     pool: 
-      name: RS-03-KUB-01
+      name: Redshift-OnPrem-Linux
       vmImage: 'ubuntu-latest'
     steps:
 #    - task: PowerShell@2
@@ -28,17 +37,10 @@ stages:
 #        script: |
 #          [string] $dateTime = (Get-Date -Format 'yyyyMMdd.HHmmss')
 #          Write-Host "##vso[task.setvariable variable=tag]$dateTime"
-    - task: DockerInstaller@0
-      displayName: Docker Installer
-      inputs:
-       dockerVersion: 17.09.0-ce
-       releaseType: stable
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub-awesomejack295'
         repository: 'awesomejack295/kubecraftadmin'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: |
-          $(tag)
-          latest
+        Dockerfile: './Dockerfile'
+        tags: latest

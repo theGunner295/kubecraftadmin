@@ -7,6 +7,8 @@ This project allows you to do basic Kubernetes administration through Minecraft.
 - [See here](https://medium.com/@eric.jadi/minecraft-as-a-k8s-admin-tool-cf16f890de42) for a more detailed introduction.
 - Link to the latest [Docker Image](https://hub.docker.com/r/awesomejack295/kubecraftadmin)
 - Latest build status ![Build Status](https://dev.azure.com/RedshiftEnt/KubeCraft/_apis/build/status/theGunner295.kubecraftadmin?branchName=main)
+- Working as of MC Bedrock version 1.18.12!
+
 
 ## Quickstart  
 
@@ -19,9 +21,9 @@ You will need the following to get started:
 
 How to run KubeCraftAdmin:
 
-1. Run the container erjadi/kubecraftadmin passing the external port and the location of your .kube directory. The container internally listens to port 8000 and in my case my .kube directory resides in /home/erjadi/.kube. You can optionally specify one to four namespaces from your cluster using the environment variable *namespaces*
+1. Run the container erjadi/kubecraftadmin passing the external port and the location of your .kube directory. The container internally listens to port 8000 and in my case my .kube directory resides in /home/kubecraft/.kube. You can optionally specify one to four namespaces from your cluster using the environment variable *namespaces*. The container will look for a file named **config** within that dir.
 ```
- docker run -p 8000:8000 -v /home/erjadi/.kube:/.kube [-e namespaces=mynamespace1,mynamespace2] erjadi/kubecraftadmin
+ docker run -p 8000:8000 -v /home/kubecraft/.kube:/.kube [-e namespaces=mynamespace1,mynamespace2] awesomejack295/kubecraftadmin
 ```
 2. Start up Minecraft Bedrock Edition
 3. Create a new world with the *Activate Cheats* option turned **on**
@@ -30,11 +32,11 @@ How to run KubeCraftAdmin:
 ```
 /connect 10.0.0.1:8000/ws
 ```
-5. Next find a nice area to spawn your kubecraft pen. Type *init* to generate the structure.
+5. Next find a nice area to spawn your kubecraft pen. Type *pos* (Hit Enter) to log your position then *init* (Hit Enter) to generate the structure.
 6. Lastly step on the [beacon](https://minecraft.gamepedia.com/Beacon) to activate the link with your cluster.
 7. At this point your pens should be populated with animals!
 
-## Running KUbecraftadmin on OpenShift
+## Running Kubecraftadmin on OpenShift
 
 - oc new-project kubecraft
 - oc adm policy add-cluster-role-to-user cluster-admin system:serviceaccount:kubecraft:default
