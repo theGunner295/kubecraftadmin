@@ -38,6 +38,11 @@ stages:
         Dockerfile: './Dockerfile'
         tags: latest
     - task: CmdLine@2
-      displayName: Cleaning up unneeded images
+      displayName: Cleaning up images older than 24H
       inputs:
        script: 'docker system prune -a --force --filter "until=24h"' 
+
+    - task: CmdLine@2
+      displayName: Cleaning up unneeded images
+      inputs:
+       script: 'docker system prune' 
